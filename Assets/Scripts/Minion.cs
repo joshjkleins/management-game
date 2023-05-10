@@ -7,11 +7,16 @@ public class Minion : MonoBehaviour
 {
     public MissionHandler missionHandler;
     public ScreenTransitions screenTransitions;
-    public enum MinionClass {Warrior, Mage, Rogue, Priest}
+    public enum MinionClass {Warrior, Mage, Rogue, Priest};
     public TMP_Text titleLevel;
 
     public MinionClass minClass;
     public int minLevel;
+
+    public List<Mission> allMissions = new List<Mission>();
+
+    public string[] locations = {"Forest", "Desert", "Mountain", "Village", "Cave"};
+    public string[] boss = {"Bandit King", "Spider Queen", "Mech Lord", "Vicious Bear", "Goblin Leader"};
 
     // Start is called before the first frame update
     void Start()
@@ -20,19 +25,25 @@ public class Minion : MonoBehaviour
         minClass = (MinionClass)Random.Range(0, 3);
         titleLevel.text = $"{minClass.ToString()}: Level {minLevel.ToString()}";
 
-        // generateMissions();
+        getMissions();
     }
 
     public void availableMissions() {
-        missionHandler.getAvailableMissions(minLevel);
-        screenTransitions.showMissions();
+        screenTransitions.showMissions(allMissions);
     }
 
-    void generateMissions() {
-        // generate list of available missions
-        // save data to this minion
+    public void getMissions() {
+        // Determine how many missions to generate
+        int numberOfMissions = 0;
+        if((minLevel >= 1) && (minLevel <= 10)) {
+            numberOfMissions = 3;
+        } else {
+            numberOfMissions = 5;
+        }
 
-        // when button is clicked pass that data to missions object to display
+        for(int i = 0; i < numberOfMissions; i++) {
+            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], 30, 100);
+            allMissions.Add(myMission);
+        }
     }
-
 }

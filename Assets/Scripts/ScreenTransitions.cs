@@ -8,7 +8,7 @@ public class ScreenTransitions : MonoBehaviour
     public GameObject minions;
     public GameObject missions;
 
-    public void showMissions() {
+    public void showMissions(List<Mission> allMissions) {
         minions.SetActive(false);
         missions.SetActive(true);
     }
