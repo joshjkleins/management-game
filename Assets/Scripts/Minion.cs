@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Minion : MonoBehaviour
 {
@@ -23,6 +24,23 @@ public class Minion : MonoBehaviour
     {
         minLevel = Random.Range(1, 15);
         minClass = (MinionClass)Random.Range(0, 3);
+
+        switch(minClass.ToString()) {
+            case("Warrior"):
+                gameObject.GetComponent<Image>().color = new Color32(173, 106, 48, 255);
+                break;
+            case("Mage"):
+                gameObject.GetComponent<Image>().color = new Color32(97, 230, 255, 255);
+                break;
+            case("Rogue"):
+                gameObject.GetComponent<Image>().color = new Color32(38, 53, 123, 255);
+                break;
+            case("Priest"):
+                gameObject.GetComponent<Image>().color = new Color32(255, 242, 47, 255);
+                break;
+            default:
+                break;
+        }
         titleLevel.text = $"{minClass.ToString()}: Level {minLevel.ToString()}";
 
         getMissions();
@@ -42,7 +60,7 @@ public class Minion : MonoBehaviour
         }
 
         for(int i = 0; i < numberOfMissions; i++) {
-            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], 30, 100);
+            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], Random.Range(0, 50), Random.Range(100, 200));
             allMissions.Add(myMission);
         }
     }
