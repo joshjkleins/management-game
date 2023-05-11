@@ -9,8 +9,8 @@ public class ScreenTransitions : MonoBehaviour
     public GameObject missions;
     public MissionHandler missionHandler;
 
-    public void showMissions(List<Mission> allMissions) {
-        missionHandler.createMissions(allMissions);
+    public void showMissions(List<Mission> allMissions, Minion minion) {
+        missionHandler.createMissions(allMissions, minion);
         minions.SetActive(false);
         missions.SetActive(true);
     }

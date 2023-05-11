@@ -1459,8 +1459,9 @@ MonoBehaviour:
   missionHandler: {fileID: 2049205955}
   screenTransitions: {fileID: 977718314}
   titleLevel: {fileID: 2090315125}
+  missionButton: {fileID: 256585470}
   minClass: 0
-  minLevel: 13
+  minLevel: 1
   locations:
   - Forest
   - Desert
@@ -1473,6 +1474,7 @@ MonoBehaviour:
   - Mech Lord
   - Vicious Bear
   - Goblin Leader
+  onMission: 1
 --- !u!1 &1721583139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1878,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentMission: {fileID: 93891002}
-  missionPrefab: {fileID: 591062565753328599, guid: 91fced52dc2df0d48993f9619ce8cae1, type: 3}
+  missionPrefab: {fileID: 1428520349740100184, guid: 91fced52dc2df0d48993f9619ce8cae1, type: 3}
+  currentMinion: {fileID: 0}
+  screenTransitions: {fileID: 977718314}
 --- !u!4 &2049205956
 Transform:
   m_ObjectHideFlags: 0
