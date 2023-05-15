@@ -10,8 +10,11 @@ public class Minion : MonoBehaviour
     public ScreenTransitions screenTransitions;
     public Slider slider;
 
+    public Coroutine theMission;
+
     public TMP_Text titleLevel;
     public Button missionButton;
+    public Button returnButton;
 
     public enum MinionClass {Warrior, Mage, Rogue, Priest};
 
@@ -20,13 +23,15 @@ public class Minion : MonoBehaviour
     public List<Mission> allMissions = new List<Mission>();
     public string[] locations = {"Forest", "Desert", "Mountain", "Village", "Cave"};
     public string[] boss = {"Bandit King", "Spider Queen", "Mech Lord", "Vicious Bear", "Goblin Leader"};
-    public bool onMission = false;
 
-    public int experienceToNextLevel = 50; 
+    public int experienceToNextLevel;
+
+    public int experienceBank = 0;
 
     // Start is called before the first frame update
     void Start()
     {
+        experienceToNextLevel = minLevel * 50;
         // minLevel = Random.Range(1, 15);
         minClass = (MinionClass)Random.Range(0, 4);
 
@@ -65,7 +70,7 @@ public class Minion : MonoBehaviour
         }
 
         for(int i = 0; i < numberOfMissions; i++) {
-            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], Random.Range(2, 5), Random.Range(100, 200));
+            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], Random.Range(2, 5), Random.Range(1, 101));
             allMissions.Add(myMission);
         }
     }
@@ -73,29 +78,39 @@ public class Minion : MonoBehaviour
     public void startMission(Mission mission) {
         Debug.Log($"Level {minLevel} {minClass} started mission in the {mission.location} with the end boss {mission.boss} and will receive {mission.experience}. This mission will take {mission.timeToComplete}.");
         missionButton.gameObject.SetActive(false);
-        missionHandler.startMission(this, mission, slider);
+        theMission = missionHandler.startMission(this, mission, slider);
+        returnButton.gameObject.SetActive(true);
     }
 
     public void missionComplete(Mission mission) {
         Debug.Log($"Your {minClass} has completed their mission!!!");
         Debug.Log($"They have received {mission.experience} experience.");
 
-        checkIfLevelUp(mission.experience);
+        experienceBank += mission.experience;
 
-        // Add experience to minion
-        // Show "Collect Reward" button
+        startMission(mission);
     }
 
-    public void checkIfLevelUp(int exp) {
-        experienceToNextLevel -= exp;
-        // THIS IS NOT WORKING AND WHACK
-        if(experienceToNextLevel <= 0) {
-            minLevel++;
-            int newExp = exp - experienceToNextLevel;
-            experienceToNextLevel = 250;
-            checkIfLevelUp(newExp);
-        }
+    public void gainExp(int exp) {
+        int remainingExp = experienceToNextLevel - exp;
 
-        titleLevel.text = $"{minClass.ToString()}: Level {minLevel.ToString()}";
+        if(remainingExp < 1) {
+            minLevel++;
+            titleLevel.text = $"{minClass.ToString()}: Level {minLevel.ToString()}";
+            experienceToNextLevel = minLevel * 50;
+            gainExp(remainingExp * -1);
+        } else {
+            experienceToNextLevel = remainingExp;
+        }
+    }
+
+    public void returnFromMission() {
+        // Stop mission
+        StopCoroutine(theMission);
+        slider.value = 0;
+        gainExp(experienceBank);
+        experienceBank = 0;
+        returnButton.gameObject.SetActive(false);
+        missionButton.gameObject.SetActive(true);
     }
 }

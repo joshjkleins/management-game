@@ -31,10 +31,11 @@ public class MissionHandler : MonoBehaviour
         screenTransitions.showMinions();
     }
 
-    public void startMission(Minion minion, Mission mission, Slider slider) {
+    public Coroutine startMission(Minion minion, Mission mission, Slider slider) {
         slider.value = 0;
         slider.maxValue = mission.timeToComplete;
-        StartCoroutine(MissionCountdown(minion, mission, slider));
+        Coroutine theMission = StartCoroutine(MissionCountdown(minion, mission, slider));
+        return theMission;
     }
 
     public IEnumerator MissionCountdown(Minion minion, Mission mission, Slider slider) {
@@ -43,6 +44,7 @@ public class MissionHandler : MonoBehaviour
             slider.value++;
         }
 
+        slider.value = 0;
         minion.missionComplete(mission);
     }
 }
