@@ -37,16 +37,16 @@ public class Minion : MonoBehaviour
 
         switch(minClass.ToString()) {
             case("Warrior"):
-                gameObject.GetComponent<Image>().color = new Color32(173, 106, 48, 255);
+                gameObject.GetComponent<Image>().color = new Color32(123, 94, 69, 255);
                 break;
             case("Mage"):
-                gameObject.GetComponent<Image>().color = new Color32(97, 230, 255, 255);
+                gameObject.GetComponent<Image>().color = new Color32(86, 174, 191, 255);
                 break;
             case("Rogue"):
-                gameObject.GetComponent<Image>().color = new Color32(38, 53, 123, 255);
+                gameObject.GetComponent<Image>().color = new Color32(70, 47, 101, 255);
                 break;
             case("Priest"):
-                gameObject.GetComponent<Image>().color = new Color32(255, 242, 47, 255);
+                gameObject.GetComponent<Image>().color = new Color32(179, 178, 55, 255);
                 break;
             default:
                 break;
@@ -70,7 +70,7 @@ public class Minion : MonoBehaviour
         }
 
         for(int i = 0; i < numberOfMissions; i++) {
-            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], Random.Range(2, 5), Random.Range(1, 101));
+            Mission myMission = new Mission(locations[Random.Range(0, locations.Length)], boss[Random.Range(0, boss.Length)], Random.Range(10, 25), Random.Range(1, 16));
             allMissions.Add(myMission);
         }
     }
@@ -114,3 +114,9 @@ public class Minion : MonoBehaviour
         missionButton.gameObject.SetActive(true);
     }
 }
+
+
+// TODOS
+
+// 1. Experience bar on each minion card
+// 2. After recalling from mission show rewards button/logic
