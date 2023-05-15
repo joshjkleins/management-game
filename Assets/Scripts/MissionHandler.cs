@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissionHandler : MonoBehaviour
 {
@@ -30,18 +31,16 @@ public class MissionHandler : MonoBehaviour
         screenTransitions.showMinions();
     }
 
-    public void startMission(Minion minion, Mission mission) {
-        StartCoroutine(MissionCountdown(minion, mission));
-        
+    public void startMission(Minion minion, Mission mission, Slider slider) {
+        slider.value = 0;
+        slider.maxValue = mission.timeToComplete;
+        StartCoroutine(MissionCountdown(minion, mission, slider));
     }
 
-    public IEnumerator MissionCountdown(Minion minion, Mission mission) {
+    public IEnumerator MissionCountdown(Minion minion, Mission mission, Slider slider) {
         for (int ttc = mission.timeToComplete; ttc >= 1; ttc--) {
-            if(ttc % 10 == 0) {
-                Debug.Log($"Level {minion.minLevel} {minion.minClass} has {ttc} seconds remaining on their mission.");
-            }
-            
             yield return new WaitForSeconds(1.0f);
+            slider.value++;
         }
 
         minion.missionComplete(mission);
